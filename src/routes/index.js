@@ -5,6 +5,9 @@ import Welcome from '../pages/welcome';
 import SignIn from '../pages/SignIn';
 import Register from '../pages/Register';
 import Home from '../pages/Home';
+import Cart from '../pages/Cart';
+import OrderPrepairing from '../pages/OrderPrepairing';
+import Delivery from '../pages/Delivery';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +33,21 @@ export default function Routes() {
         name="Register"
         component={Register}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={{headerShown: false, presentation: 'modal'}}
+      />
+      <Stack.Screen
+        name="OrderPrepairing"
+        component={OrderPrepairing}
+        options={{headerShown: false, presentation: 'fullScreenModal'}}
+      />
+      <Stack.Screen
+        name="Delivery"
+        component={Delivery}
+        options={{headerShown: false, presentation: 'fullScreenModal'}}
       />
     </Stack.Navigator>
   );
