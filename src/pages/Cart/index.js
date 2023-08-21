@@ -105,7 +105,7 @@ export default function Cart() {
           <Text className="ftext-gray-700 font-extrabold">${cartTotal + deliveryFee}</Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('OrderPrepairing')}
+          onPress={() => navigation.navigate('PaymentScreen')}
           style={{backgroundColor: themeColors.bgColor(1)}}
           className="p-3 rounded-full">
           <Text className="text-center font-bold text-white text-lg">

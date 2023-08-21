@@ -6,6 +6,7 @@ import SignIn from '../pages/SignIn';
 import Register from '../pages/Register';
 import Home from '../pages/Home';
 import Cart from '../pages/Cart';
+import PaymentScreen from '../pages/Payment';
 import OrderPrepairing from '../pages/OrderPrepairing';
 import Delivery from '../pages/Delivery';
 
@@ -48,6 +49,11 @@ export default function Routes() {
         name="Delivery"
         component={Delivery}
         options={{headerShown: false, presentation: 'fullScreenModal'}}
+      />
+      <Stack.Screen 
+        name="PaymentScreen"
+        component={PaymentScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

@@ -5,7 +5,7 @@ import {categories} from '../constants';
 export default function Categories() {
   const [activeCategory, setActiveCategory] = useState(null);
   return (
-    <View className="mt-4">
+    <View className="mt-2">
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

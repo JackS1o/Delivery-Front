@@ -71,6 +71,48 @@ export const featured = {
                  price: 10,
                  image:  require('../assets/images/pizzaDish.png')
               },
+              {
+                id: 4,
+                name: 'pizza',
+                description: 'cheezy garlic pizza',
+                price: 10,
+                image:  require('../assets/images/pizzaDish.png')
+             },
+             {
+                id: 5,
+                name: 'pizza',
+                description: 'cheezy garlic pizza',
+                price: 10,
+                image:  require('../assets/images/pizzaDish.png')
+             },
+             {
+                id: 6,
+                name: 'pizza',
+                description: 'cheezy garlic pizza',
+                price: 10,
+                image:  require('../assets/images/pizzaDish.png')
+             },
+             {
+                id: 7,
+                name: 'pizza',
+                description: 'cheezy garlic pizza',
+                price: 10,
+                image:  require('../assets/images/pizzaDish.png')
+             },
+             {
+                id: 8,
+                name: 'pizza',
+                description: 'cheezy garlic pizza',
+                price: 10,
+                image:  require('../assets/images/pizzaDish.png')
+             },
+             {
+                id: 9,
+                name: 'pizza',
+                description: 'cheezy garlic pizza',
+                price: 10,
+                image:  require('../assets/images/pizzaDish.png')
+             },
           ]
   
       },
