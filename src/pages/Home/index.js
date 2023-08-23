@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, StatusBar, View} from 'react-native';
 import Products from '../Products';
 import CardIcon from '../../components/CardIcon';
+import Footer from '../../components/Footer';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <Products />
       </ScrollView>
       <CardIcon />
+      <Footer />
     </View>
   );
 }
