@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:693176297834:android:970f4fb0eded0ff4ba1d13",
+        "mobilesdk_app_id": "1:693176297834:android:f11fe0b09bb0288aba1d13",
         "android_client_info": {
-          "package_name": "com.app"
+          "package_name": "com.vrbDelivery.app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "693176297834-r6j4mjl0g2fjc9ik6qe87vvkk9f6e1m1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vrbDelivery.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
         {
           "client_id": "693176297834-gk83g6j3ks0l61sgn0ake65roltk58qk.apps.googleusercontent.com",
           "client_type": 3
