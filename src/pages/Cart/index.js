@@ -6,6 +6,7 @@ import * as Icon from 'react-native-feather';
 import {useNavigation} from '@react-navigation/native';
 import {removeFromCart, selectCartItems, selectCartTotal} from '../../slices/cart';
 import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Cart() {
   const navigation = useNavigation();
@@ -28,6 +29,16 @@ export default function Cart() {
     }, {});
     setGroupedItems(items);
   }, [cartItems]);
+
+  const placeOrder = async () => {
+    const user = await AsyncStorage.getItem('user');
+    if (!user) {
+      navigation.navigate('Login');
+    } else {
+      navigation.navigate('PaymentScreen')
+    }
+  }
+  
   return (
     <View className="bg-white flex-1">
       <View className="relative py-4 shadow-sm">
@@ -105,7 +116,7 @@ export default function Cart() {
           <Text className="ftext-gray-700 font-extrabold">${cartTotal + deliveryFee}</Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('PaymentScreen')}
+          onPress={placeOrder}
           style={{backgroundColor: themeColors.bgColor(1)}}
           className="p-3 rounded-full">
           <Text className="text-center font-bold text-white text-lg">

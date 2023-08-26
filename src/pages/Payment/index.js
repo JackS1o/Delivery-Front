@@ -21,7 +21,7 @@ export default function PaymentScreen() {
   const [cvv, setCVV] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardType, setCardType] = useState('');
-  const [pixKey, setPixKey] = useState('adfvasdvadrghrtyjhtydyh');
+  const [pixKey, setPixKey] = useState('MD');
   const cartTotal = useSelector(selectCartTotal);
   const navigate = useNavigation();
 

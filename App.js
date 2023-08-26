@@ -1,5 +1,5 @@
 // import React, {useState, useEffect} from 'react';
-// import {View, Text, Button} from 'react-native';
+// import {View, Text, Button, Image} from 'react-native';
 // import auth from '@react-native-firebase/auth';
 // import {Login} from './src/pages/login';
 
@@ -17,6 +17,7 @@
 //   // Handle user state changes
 //   function onAuthStateChanged(user) {
 //     setUser(user);
+//     console.log(user);
 //     if (initializing) {
 //       setInitializing(false);
 //     }
@@ -57,7 +58,9 @@
 //           fontSize: 20,
 //           color: '#e1e1e1',
 //           textAlign: 'center',
-//         }}>{`Welcome \n${user.email}`}</Text>
+//         }}>{`Welcome \n${user.displayName}`}</Text>
+//       <Text style={{fontSize: 20, color: '#e1e1e1'}}>{user.email}</Text>
+//       <Image source={{uri: user.photoURL}} style={{width: 100, height: 100}} />
 //       <Button title="sair" onPress={signOut} />
 //     </View>
 //   );
@@ -74,7 +77,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
+        <StatusBar barStyle="light-content" backgroundColor="#fff" />
         <Routes />
       </NavigationContainer>
     </Provider>

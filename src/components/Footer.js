@@ -1,8 +1,10 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import * as Icon from 'react-native-feather';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Footer() {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -13,6 +15,7 @@ export default function Footer() {
         backgroundColor: 'white',
       }}>
       <TouchableOpacity
+        onPress={() => navigation.navigate('Orders')}
         className=" bg-white p-2 rounded-lg"
         style={{
           height: 60,
@@ -27,6 +30,7 @@ export default function Footer() {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
+        onPress={() => navigation.navigate('Profile')}
         className=" bg-white p-2 rounded-lg"
         style={{
           height: 60,
