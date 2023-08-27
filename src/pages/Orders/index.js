@@ -9,6 +9,7 @@ import {
 } from '../../slices/cart';
 import {themeColors} from '../../theme';
 import * as Icon from 'react-native-feather';
+import Footer from '../../components/Footer';
 
 export default function Orders() {
   const dispatch = useDispatch();
@@ -25,33 +26,36 @@ export default function Orders() {
   };
 
   return (
-    <ScrollView style={{flex: 1}}>
-      <Text className="px-4 py-4 text-2xl font-bold">Meus Pedidos</Text>
-      <View className="flex-row items-center bg-white p-3 rounded-3xl shadow-2xl mb-3 mx-2">
-        <Image
-          className="rounded-3xl"
-          style={{height: 100, width: 100}}
-          source={featured.restaurants[0].dishes[0].image}
-        />
-        <View className="flex flex-1 space-y-3">
-          <View className="pl-3">
-            <Text className="text-xl">
-              {featured.restaurants[0].dishes[0].name}
-            </Text>
-            <Text className="text-gray-700">
-              {featured.restaurants[0].dishes[0].description}
-            </Text>
-          </View>
-          <View className="flex-row justify-between pl-3 items-center">
-            <Text className="text-gray-700 text-lg font-bold">
-              ${featured.restaurants[0].dishes[0].price}
-            </Text>
-            <View className="flex-row items-center">
-              <Text className="px-3 ">{totalItems.length}</Text>
+    <View style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
+        <Text className="px-4 py-4 text-2xl font-bold">Meus Pedidos</Text>
+        <View className="flex-row items-center bg-white p-3 rounded-3xl shadow-2xl mb-3 mx-2">
+          <Image
+            className="rounded-3xl"
+            style={{height: 100, width: 100}}
+            source={featured.restaurants[0].dishes[0].image}
+          />
+          <View className="flex flex-1 space-y-3">
+            <View className="pl-3">
+              <Text className="text-xl">
+                {featured.restaurants[0].dishes[0].name}
+              </Text>
+              <Text className="text-gray-700">
+                {featured.restaurants[0].dishes[0].description}
+              </Text>
+            </View>
+            <View className="flex-row justify-between pl-3 items-center">
+              <Text className="text-gray-700 text-lg font-bold">
+                ${featured.restaurants[0].dishes[0].price}
+              </Text>
+              <View className="flex-row items-center">
+                <Text className="px-3 ">{totalItems.length}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <Footer />
+    </View>
   );
 }

@@ -39,7 +39,7 @@ export default function Login() {
 
   async function onGoogleButtonPress() {
     const userInfo = await GoogleSignin.signIn();
-    await AsyncStorage.setItem('user', JSON.stringify(userInfo.idToken));
+    await AsyncStorage.setItem('user', JSON.stringify(userInfo));
     setUser(userInfo);
     navigation.navigate('PaymentScreen')
   }
