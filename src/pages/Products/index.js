@@ -3,8 +3,15 @@ import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {featured} from '../../constants';
 import DishRow from '../../components/DishRow';
 import Categories from '../../components/Categories';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Products() {
+  const navigate = useNavigation();
+
+  const dishDetails = (dish) => {
+    navigate.navigate('DishDetails', {dishId: dish});
+  }
+
   return (
     <View>
       <ScrollView style={{flex: 1}}>
@@ -25,7 +32,11 @@ export default function Products() {
         <View className="pb-6 bg-white">
           <Text className="px-4 py-4 text-2xl font-bold">Menu</Text>
           {featured.restaurants[0].dishes.map((dish, index) => {
-            return <DishRow key={index} item={dish} />;
+            return (
+              <TouchableOpacity key={index} onPress={() => dishDetails(dish.id)} >
+                <DishRow key={index} item={dish} />
+              </TouchableOpacity>
+            );
           })}
         </View>
       </ScrollView>

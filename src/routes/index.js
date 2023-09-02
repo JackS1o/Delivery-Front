@@ -13,6 +13,7 @@ import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import Orders from '../pages/Orders';
 import StoreInfo from '../pages/StoreInfo';
+import DishDetails from '../pages/DishDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +78,11 @@ export default function Routes() {
       <Stack.Screen
         name='StoreInfo'
         component={StoreInfo}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name='DishDetails'
+        component={DishDetails}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
