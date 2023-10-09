@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Image, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -10,21 +10,34 @@ import {themeColors} from '../../theme';
 import * as Icon from 'react-native-feather';
 import {featured} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 export default function DishDetails({route}) {
   const {dishId} = route.params;
   const navigation = useNavigation();
-  const item = featured.restaurants[0].dishes.find(dish => dish.id === dishId);
+  const [dishes, setDishes] = useState([]);
 
+  useEffect(() => {
+    axios.get('http://192.168.2.215:8080/api/v1/client/products/6510964c23b6150d7f629b2d',
+    { headers: { 'Content-Type': 'application/json' } },
+    )
+    .then(response => {
+      setDishes(response.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  }, []);
+
+  const item = dishes.find(item => item._id === dishId);
   const dispatch = useDispatch();
-  const totalItems = useSelector(state => selectCartItemsById(state, item.id));
+  const totalItems = useSelector(state => selectCartItemsById(state, item?.id));
 
   const handleIncrease = () => {
     dispatch(addToCart({...item}));
   };
 
   const handleDecrease = () => {
-    dispatch(removeFromCart({id: item.id}));
+    dispatch(removeFromCart({id: item?.id}));
   };
 
   const finishOrder = () => {
@@ -35,7 +48,7 @@ export default function DishDetails({route}) {
     <View style={styles.container} className="bg-white flex-1">
       <View className="relative py-4 shadow-sm">
         <Image
-          source={require('../../assets/images/pizzaDish.png')}
+          source={{uri: item?.url}}
           style={styles.image}
           resizeMode="cover"
         />
@@ -50,10 +63,10 @@ export default function DishDetails({route}) {
         </View>
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.name}>{item?.name}</Text>
+        <Text style={styles.description}>{item?.description}</Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>${item.price}</Text>
+          <Text style={styles.price}>${item?.price}</Text>
           <View style={styles.quantityContainer}>
             <TouchableOpacity
               onPress={handleDecrease}

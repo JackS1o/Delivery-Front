@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {featured} from '../../constants';
 import DishRow from '../../components/DishRow';
 import Categories from '../../components/Categories';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 export default function Products() {
   const navigate = useNavigation();
+  const [dishes, setDishes] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://192.168.2.215:8080/api/v1/client/products/6510964c23b6150d7f629b2d',
+    { headers: { 'Content-Type': 'application/json' } },
+    )
+    .then(response => {
+      console.log(response.data);
+      setDishes(response.data);
+    })
+  }, []);
 
   const dishDetails = (dish) => {
     navigate.navigate('DishDetails', {dishId: dish});
@@ -31,9 +43,9 @@ export default function Products() {
         </View>
         <View className="pb-6 bg-white">
           <Text className="px-4 py-4 text-2xl font-bold">Menu</Text>
-          {featured.restaurants[0].dishes.map((dish, index) => {
+          {dishes.map((dish, index) => {
             return (
-              <TouchableOpacity key={index} onPress={() => dishDetails(dish.id)} >
+              <TouchableOpacity key={index} onPress={() => dishDetails(dish._id)} >
                 <DishRow key={index} item={dish} />
               </TouchableOpacity>
             );
