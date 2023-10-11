@@ -11,11 +11,10 @@ export default function Products() {
   const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
-    axios.get('http://192.168.2.215:8080/api/v1/client/products/6510964c23b6150d7f629b2d',
+    axios.get('https://app-delivery-z6o6.onrender.com/api/v1/client/products/6510964c23b6150d7f629b2d',
     { headers: { 'Content-Type': 'application/json' } },
     )
     .then(response => {
-      console.log(response.data);
       setDishes(response.data);
     })
   }, []);
@@ -36,7 +35,7 @@ export default function Products() {
         <Categories />
         <View
           style={{borderTopLeftRadius: 40, borderTopRightRadius: 40}}
-          className="bg-white -mt-1 pt-3">
+          className="bg-white -mt-0 pt-3">
           <View className="px-5">
             <Text className="text-3xl font-bold">Lanches do Zé</Text>
           </View>

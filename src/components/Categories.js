@@ -1,9 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, TouchableOpacity, Text, View, Image} from 'react-native';
-import {categories} from '../constants';
+import axios from 'axios';
 
 export default function Categories() {
   const [activeCategory, setActiveCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://192.168.2.215:8080/api/v1/client/category/6510964c23b6150d7f629b2c')
+      .then((res) => {
+        setCategories(res.data);
+      }).catch((err) => {
+        console.log(err);
+      })
+  }, [])
+
   return (
     <View className="mt-2">
       <ScrollView
@@ -26,7 +38,7 @@ export default function Categories() {
                 className={'p-1 rounded-full shadow bg-gray-200 ' + btnClass}>
                 <Image
                   style={{width: 45, height: 45}}
-                  source={category.image}
+                  source={category?.image}
                 />
               </TouchableOpacity>
               <Text className={'text-sm ' + textClass}>{category.name}</Text>
