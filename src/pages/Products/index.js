@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {featured} from '../../constants';
 import DishRow from '../../components/DishRow';
 import Categories from '../../components/Categories';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function Products() {
   const navigate = useNavigation();
   const [dishes, setDishes] = useState([]);
+  const filteredProducts = useSelector(state => state.cart.filteredProducts);
 
   useEffect(() => {
-    axios.get('https://app-delivery-z6o6.onrender.com/api/v1/client/products/6510964c23b6150d7f629b2d',
-    { headers: { 'Content-Type': 'application/json' } },
-    )
-    .then(response => {
-      setDishes(response.data);
-    })
-  }, []);
+    filteredProducts.length
+      ? setDishes(filteredProducts)
+      : axios
+          .get(
+            'https://app-delivery-z6o6.onrender.com/api/v1/client/products/6510964c23b6150d7f629b2d',
+            {headers: {'Content-Type': 'application/json'}},
+          )
+          .then(response => {
+            setDishes(response.data);
+          });
+  }, [filteredProducts]);
 
-  const dishDetails = (dish) => {
+  const dishDetails = dish => {
     navigate.navigate('DishDetails', {dishId: dish});
-  }
+  };
 
   return (
     <View>
@@ -42,9 +49,16 @@ export default function Products() {
         </View>
         <View className="pb-6 bg-white">
           <Text className="px-4 py-4 text-2xl font-bold">Menu</Text>
+          <Spinner
+            visible={!dishes.length}
+            textContent={'Carregando...'}
+            textStyle={{color: '#FFF'}}
+          />
           {dishes.map((dish, index) => {
             return (
-              <TouchableOpacity key={index} onPress={() => dishDetails(dish._id)} >
+              <TouchableOpacity
+                key={index}
+                onPress={() => dishDetails(dish._id)}>
                 <DishRow key={index} item={dish} />
               </TouchableOpacity>
             );

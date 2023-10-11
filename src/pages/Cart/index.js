@@ -20,10 +20,10 @@ export default function Cart() {
 
   useEffect(() => {
     const items = cartItems.reduce((group, item) => {
-      if (group[item.id]) {
-        group[item.id].push(item);
+      if (group[item._id]) {
+        group[item._id].push(item);
       } else {
-        group[item.id] = [item];
+        group[item._id] = [item];
       }
       return group;
     }, {});
@@ -82,9 +82,9 @@ export default function Cart() {
               </Text>
               <Image className="h-14 w-14 rounded-full" source={dish.image} />
               <Text className="flex-1 fontBold text-gray-700">{dish.name}</Text>
-              <Text className="font-semibold text-base">${dish.price}</Text>
+              <Text className="font-semibold text-base">R$ {dish.price.toFixed(2)}</Text>
               <TouchableOpacity
-                onPress={() => dispatch(removeFromCart({id: dish.id}))}
+                onPress={() => dispatch(removeFromCart({id: dish._id}))}
                 className="p-1 rounded-full"
                 style={{
                   backgroundColor: themeColors.bgColor(1),
@@ -105,15 +105,15 @@ export default function Cart() {
         style={{backgroundColor: themeColors.bgColor(0.2)}}>
         <View className="flex-row justify-between">
           <Text className="ftext-gray-700">Subtotal</Text>
-          <Text className="ftext-gray-700">${cartTotal}</Text>
+          <Text className="ftext-gray-700">R$ {cartTotal.toFixed(2)}</Text>
         </View>
         <View className="flex-row justify-between">
           <Text className="ftext-gray-700">Delivery Fee</Text>
-          <Text className="ftext-gray-700">${deliveryFee}</Text>
+          <Text className="ftext-gray-700">R$ {deliveryFee.toFixed(2)}</Text>
         </View>
         <View className="flex-row justify-between">
           <Text className="ftext-gray-700 font-extrabold">Order total</Text>
-          <Text className="ftext-gray-700 font-extrabold">${cartTotal + deliveryFee}</Text>
+          <Text className="ftext-gray-700 font-extrabold">R$ {(cartTotal + deliveryFee).toFixed(2)}</Text>
         </View>
         <TouchableOpacity
           onPress={placeOrder}

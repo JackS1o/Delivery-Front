@@ -29,7 +29,7 @@ export default function CardIcon() {
         <Text className="flex-1 text-center font-extrabold text-white text-lg">
           View Card
         </Text>
-        <Text className="font-extrabold text-white text-lg">${cartTotal.toFixed(2)}</Text>
+        <Text className="font-extrabold text-white text-lg">R$ {cartTotal.toFixed(2)}</Text>
       </TouchableOpacity>
     </View>
   );

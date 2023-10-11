@@ -30,14 +30,14 @@ export default function DishDetails({route}) {
 
   const item = dishes.find(item => item._id === dishId);
   const dispatch = useDispatch();
-  const totalItems = useSelector(state => selectCartItemsById(state, item?.id));
+  const totalItems = useSelector(state => selectCartItemsById(state, item?._id));
 
   const handleIncrease = () => {
     dispatch(addToCart({...item}));
   };
 
   const handleDecrease = () => {
-    dispatch(removeFromCart({id: item?.id}));
+    dispatch(removeFromCart({id: item?._id}));
   };
 
   const finishOrder = () => {
@@ -66,7 +66,7 @@ export default function DishDetails({route}) {
         <Text style={styles.name}>{item?.name}</Text>
         <Text style={styles.description}>{item?.description}</Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>${item?.price}</Text>
+          <Text style={styles.price}>R$ {item?.price.toFixed(2)}</Text>
           <View style={styles.quantityContainer}>
             <TouchableOpacity
               onPress={handleDecrease}
