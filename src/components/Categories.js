@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, TouchableOpacity, Text, View, Image} from 'react-native';
-import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {filterProductsByCategories} from '../slices/cart';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {getcategories} from '../utils/categories';
 
 export default function Categories() {
   const [activeCategory, setActiveCategory] = useState(null);
@@ -11,17 +11,14 @@ export default function Categories() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(
-        'http://192.168.2.215:8080/api/v1/client/category/6510964c23b6150d7f629b2c',
-      )
+    getcategories()
       .then(res => {
         setCategories(res.data);
       })
       .catch(err => {
         console.log(err);
       });
-  }, [categories]);
+  }, []);
 
   const filterProducts = async category => {
     setActiveCategory(category);

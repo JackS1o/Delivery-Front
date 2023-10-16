@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -10,7 +10,7 @@ import {themeColors} from '../../theme';
 import * as Icon from 'react-native-feather';
 import {featured} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
+import {getProducts} from '../../utils/products';
 
 export default function DishDetails({route}) {
   const {dishId} = route.params;
@@ -18,19 +18,20 @@ export default function DishDetails({route}) {
   const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
-    axios.get('https://app-delivery-z6o6.onrender.com/api/v1/client/products/6510964c23b6150d7f629b2d',
-    { headers: { 'Content-Type': 'application/json' } },
-    )
-    .then(response => {
-      setDishes(response.data);
-    }).catch(error => {
-      console.log(error);
-    })
+    getProducts()
+      .then(response => {
+        setDishes(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   const item = dishes.find(item => item._id === dishId);
   const dispatch = useDispatch();
-  const totalItems = useSelector(state => selectCartItemsById(state, item?._id));
+  const totalItems = useSelector(state =>
+    selectCartItemsById(state, item?._id),
+  );
 
   const handleIncrease = () => {
     dispatch(addToCart({...item}));
@@ -59,8 +60,6 @@ export default function DishDetails({route}) {
           className="absolute z-10 rounded-full p-1 shadow top-5 left-2">
           <Icon.ArrowLeft strokeWidth={3} stroke="white" />
         </TouchableOpacity>
-        <View>
-        </View>
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{item?.name}</Text>

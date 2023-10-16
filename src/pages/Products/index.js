@@ -5,8 +5,9 @@ import DishRow from '../../components/DishRow';
 import Categories from '../../components/Categories';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {getProducts} from '../../utils/products';
 
 export default function Products() {
   const navigate = useNavigation();
@@ -16,14 +17,9 @@ export default function Products() {
   useEffect(() => {
     filteredProducts.length
       ? setDishes(filteredProducts)
-      : axios
-          .get(
-            'https://app-delivery-z6o6.onrender.com/api/v1/client/products/6510964c23b6150d7f629b2d',
-            {headers: {'Content-Type': 'application/json'}},
-          )
-          .then(response => {
-            setDishes(response.data);
-          });
+      : getProducts().then(response => {
+          setDishes(response.data);
+        });
   }, [filteredProducts]);
 
   const dishDetails = dish => {
