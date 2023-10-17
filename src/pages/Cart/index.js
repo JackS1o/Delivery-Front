@@ -4,9 +4,14 @@ import {featured} from '../../constants';
 import {themeColors} from '../../theme';
 import * as Icon from 'react-native-feather';
 import {useNavigation} from '@react-navigation/native';
-import {removeFromCart, selectCartItems, selectCartTotal} from '../../slices/cart';
+import {
+  removeFromCart,
+  selectCartItems,
+  selectCartTotal,
+} from '../../slices/cart';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 export default function Cart() {
   const navigation = useNavigation();
@@ -19,6 +24,10 @@ export default function Cart() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '693176297834-gk83g6j3ks0l61sgn0ake65roltk58qk.apps.googleusercontent.com',
+    });
     const items = cartItems.reduce((group, item) => {
       if (group[item._id]) {
         group[item._id].push(item);
@@ -33,12 +42,26 @@ export default function Cart() {
   const placeOrder = async () => {
     const user = await AsyncStorage.getItem('user');
     if (!user) {
-      navigation.navigate('Login');
+      const hasPlayServices = await GoogleSignin.hasPlayServices();
+      if (hasPlayServices) {
+        try {
+          const userInfo = await GoogleSignin.signIn({
+            forceCodeForRefreshToken: true,
+          });
+          await AsyncStorage.setItem('user', JSON.stringify(userInfo));
+          setUser(userInfo);
+          await userInformarion(userInfo);
+          // await userInformarion(userInfo);
+          navigation.navigate('PaymentScreen');
+        } catch (error) {
+          console.log(error);
+        }
+      }
     } else {
-      navigation.navigate('PaymentScreen')
+      navigation.navigate('PaymentScreen');
     }
-  }
-  
+  };
+
   return (
     <View className="bg-white flex-1">
       <View className="relative py-4 shadow-sm">
@@ -49,7 +72,7 @@ export default function Cart() {
           <Icon.ArrowLeft strokeWidth={3} stroke="white" />
         </TouchableOpacity>
         <View>
-          <Text className="text-center font-bold text-xl">Your Cart</Text>
+          <Text className="text-center font-bold text-xl">Meu Carrinho</Text>
           <Text className="text-center text-gray-500">{restaurant.name}</Text>
         </View>
       </View>
@@ -60,7 +83,7 @@ export default function Cart() {
           source={require('../../assets/images/bikeGuy.png')}
           className="w-20 h-20 rounded-full"
         />
-        <Text className="flex-1 pl-4">Deliver in 20-30 minutes</Text>
+        <Text className="flex-1 pl-4">Entrega em 20-30 minutos</Text>
         <TouchableOpacity>
           <Text className="font-bold" style={{color: themeColors.text}}>
             Change
@@ -82,7 +105,9 @@ export default function Cart() {
               </Text>
               <Image className="h-14 w-14 rounded-full" source={dish.image} />
               <Text className="flex-1 fontBold text-gray-700">{dish.name}</Text>
-              <Text className="font-semibold text-base">R$ {dish.price.toFixed(2)}</Text>
+              <Text className="font-semibold text-base">
+                R$ {dish.price.toFixed(2)}
+              </Text>
               <TouchableOpacity
                 onPress={() => dispatch(removeFromCart({id: dish._id}))}
                 className="p-1 rounded-full"
@@ -108,19 +133,21 @@ export default function Cart() {
           <Text className="ftext-gray-700">R$ {cartTotal.toFixed(2)}</Text>
         </View>
         <View className="flex-row justify-between">
-          <Text className="ftext-gray-700">Delivery Fee</Text>
+          <Text className="ftext-gray-700">Taxa de entrega</Text>
           <Text className="ftext-gray-700">R$ {deliveryFee.toFixed(2)}</Text>
         </View>
         <View className="flex-row justify-between">
-          <Text className="ftext-gray-700 font-extrabold">Order total</Text>
-          <Text className="ftext-gray-700 font-extrabold">R$ {(cartTotal + deliveryFee).toFixed(2)}</Text>
+          <Text className="ftext-gray-700 font-extrabold">Total</Text>
+          <Text className="ftext-gray-700 font-extrabold">
+            R$ {(cartTotal + deliveryFee).toFixed(2)}
+          </Text>
         </View>
         <TouchableOpacity
           onPress={placeOrder}
           style={{backgroundColor: themeColors.bgColor(1)}}
           className="p-3 rounded-full">
           <Text className="text-center font-bold text-white text-lg">
-            Place Order
+            Finalizar Pedido
           </Text>
         </TouchableOpacity>
       </View>

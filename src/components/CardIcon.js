@@ -27,7 +27,7 @@ export default function CardIcon() {
           </Text>
         </View>
         <Text className="flex-1 text-center font-extrabold text-white text-lg">
-          View Card
+          Carrinho
         </Text>
         <Text className="font-extrabold text-white text-lg">R$ {cartTotal.toFixed(2)}</Text>
       </TouchableOpacity>
