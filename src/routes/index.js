@@ -9,7 +9,7 @@ import Cart from '../pages/Cart';
 import PaymentScreen from '../pages/Payment';
 import OrderPrepairing from '../pages/OrderPrepairing';
 import Delivery from '../pages/Delivery';
-import Login from '../pages/Login';
+import Login from '../components/Login';
 import Profile from '../pages/Profile';
 import Orders from '../pages/Orders';
 import StoreInfo from '../pages/StoreInfo';

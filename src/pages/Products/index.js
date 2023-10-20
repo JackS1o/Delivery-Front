@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {featured} from '../../constants';
 import DishRow from '../../components/DishRow';
 import Categories from '../../components/Categories';
 import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
 import {useSelector} from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {getProducts} from '../../utils/products';

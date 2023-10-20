@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
+import { getProducts } from '../utils/products';
 
 const initialState = {
   items: [],
@@ -46,15 +46,10 @@ export const selectCartTotal = state =>
 
 export const filterProductsByCategories = category => async dispatch => {
   try {
-    const response = await axios.get(
-      'https://app-delivery-z6o6.onrender.com/api/v1/client/products/6510964c23b6150d7f629b2d',
-      {
-        headers: {'Content-Type': 'application/json'},
-      },
-    );
-
+    const response = await getProducts()
+    
     const filteredProducts = response.data.filter(
-      product => product.category === category,
+      product => product.categoryId === category,
     );
     dispatch({type: 'cart/FILTER_PRODUCTS', payload: filteredProducts});
   } catch (error) {

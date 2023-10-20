@@ -24,10 +24,6 @@ export default function Cart() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '693176297834-gk83g6j3ks0l61sgn0ake65roltk58qk.apps.googleusercontent.com',
-    });
     const items = cartItems.reduce((group, item) => {
       if (group[item._id]) {
         group[item._id].push(item);
@@ -42,21 +38,8 @@ export default function Cart() {
   const placeOrder = async () => {
     const user = await AsyncStorage.getItem('user');
     if (!user) {
-      const hasPlayServices = await GoogleSignin.hasPlayServices();
-      if (hasPlayServices) {
-        try {
-          const userInfo = await GoogleSignin.signIn({
-            forceCodeForRefreshToken: true,
-          });
-          await AsyncStorage.setItem('user', JSON.stringify(userInfo));
-          setUser(userInfo);
-          await userInformarion(userInfo);
-          // await userInformarion(userInfo);
-          navigation.navigate('PaymentScreen');
-        } catch (error) {
-          console.log(error);
-        }
-      }
+      navigation.navigate('Login', {screen: 'LoginScreen'});
+      return;
     } else {
       navigation.navigate('PaymentScreen');
     }

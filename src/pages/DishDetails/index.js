@@ -8,7 +8,6 @@ import {
 } from '../../slices/cart';
 import {themeColors} from '../../theme';
 import * as Icon from 'react-native-feather';
-import {featured} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 import {getProducts} from '../../utils/products';
 

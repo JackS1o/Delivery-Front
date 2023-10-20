@@ -20,7 +20,7 @@ export default function Categories() {
       });
   }, []);
 
-  const filterProducts = async category => {
+  const filterProducts = async (category) => {
     setActiveCategory(category);
     dispatch(filterProductsByCategories(category));
   };
@@ -46,16 +46,22 @@ export default function Categories() {
             ? 'font-sembold text-gray-800'
             : 'text-gray-500';
           return (
-            <View key={index} className="flex justify-center items-center mr-6">
+            <View
+              key={index}
+              className="flex justify-center items-center mr-10">
               <TouchableOpacity
                 onPress={() => filterProducts(category.id)}
-                className={'p-1 rounded-full shadow bg-gray-200 ' + btnClass}>
+                className={' h-1' + btnClass}>
                 <Image
-                  style={{width: 45, height: 45}}
+                  style={{width: 25, height: 8}}
                   source={category?.image}
                 />
+                <Text
+                  className={'text-sm ' + textClass}
+                  style={{fontSize: 15, fontWeight: 'bold', marginBottom: 8}}>
+                  {category.name}
+                </Text>
               </TouchableOpacity>
-              <Text className={'text-sm ' + textClass}>{category.name}</Text>
             </View>
           );
         })}

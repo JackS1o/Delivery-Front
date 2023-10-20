@@ -9,13 +9,16 @@ import {
 } from 'react-native';
 import Footer from '../../components/Footer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import googleImg from '../../assets/icons8-google-48.png';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import { userInformarion } from '../../utils/login';
+import Login from '../../components/Login';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectIsLogged, setIsLogged} from '../../slices/isLogged';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const dispatch = useDispatch();
+  const {isLogged} = useSelector(selectIsLogged);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
@@ -37,59 +40,21 @@ const Profile = () => {
       const user = await AsyncStorage.getItem('user');
       const parsedUser = JSON.parse(user);
       setUserInfo(parsedUser);
+      parsedUser !== null && dispatch(setIsLogged(true));
     };
     getUserInfo();
-    GoogleSignin.configure({
-      webClientId:
-        '693176297834-gk83g6j3ks0l61sgn0ake65roltk58qk.apps.googleusercontent.com',
-    });
-  }, [userInfo]);
+  }, [isLogged]);
 
   async function signOut() {
     await GoogleSignin.signOut();
-    setUserInfo(null)
+    dispatch(setIsLogged(false));
     await AsyncStorage.removeItem('user');
-  }
-
-  async function onGoogleButtonPress() {
-    const hasPlayServices = await GoogleSignin.hasPlayServices();
-    if (hasPlayServices) {
-      try {
-        const userInfo = await GoogleSignin.signIn({
-          forceCodeForRefreshToken: true,
-        });
-        await AsyncStorage.setItem('user', JSON.stringify(userInfo));
-        setUserInfo(userInfo);
-        // await userInformarion(userInfo);
-      } catch (error) {
-        console.log(error);
-      }
-    }
   }
 
   return (
     <>
-      {userInfo === null ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity style={styles.button} onPress={onGoogleButtonPress}>
-            <Image
-              source={googleImg}
-              style={{
-                height: 25,
-                width: 25,
-                marginRight: 10,
-                backgroundColor: 'white',
-                borderRadius: 5,
-              }}
-            />
-            <Text style={styles.buttonText}>Entrar com Google</Text>
-          </TouchableOpacity>
-        </View>
+      {!isLogged ? (
+        <Login />
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Image
@@ -186,9 +151,7 @@ const Profile = () => {
               borderRadius: 4,
               marginTop: 12,
             }}>
-            <Text style={{color: 'white'}} >
-              Sair
-            </Text>
+            <Text style={{color: 'white'}}>Sair</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -204,15 +167,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#4889f4',
-    padding: 10,
-    borderRadius: 5,
-    display: 'flex',
+    width: '83%',
     flexDirection: 'row',
+    borderRadius: 10,
+    backgroundColor: '#1877F2',
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginLeft: 10,
   },
 });
 
