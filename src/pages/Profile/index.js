@@ -69,7 +69,7 @@ const Profile = () => {
             }}
           />
           <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 8}}>
-            Nome do Usuário
+            {userInfo?.user?.name ? userInfo?.user.name : 'Nome do Usuário'}
           </Text>
           <Text style={{fontSize: 16, color: 'gray', marginBottom: 12}}>
             {userInfo?.user?.email ? userInfo?.user.email : 'email@example.com'}

@@ -36,6 +36,10 @@ export default function Cart() {
   }, [cartItems]);
 
   const placeOrder = async () => {
+    if (cartItems.length > 20) {
+      alert('Limite máximo de 20 itens por pedido.');
+      return;
+    }
     const user = await AsyncStorage.getItem('user');
     if (!user) {
       navigation.navigate('Login', {screen: 'LoginScreen'});

@@ -13,13 +13,12 @@ export default function Categories() {
   useEffect(() => {
     getcategories()
       .then(res => {
-        setCategories(res.data);
+        setCategories([{id: null, name: 'Todos'}, ...res.data]);
       })
       .catch(err => {
         console.log(err);
       });
-  }, []);
-
+  }, []); 
   const filterProducts = async (category) => {
     setActiveCategory(category);
     dispatch(filterProductsByCategories(category));

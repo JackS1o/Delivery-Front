@@ -3,6 +3,7 @@ import {ScrollView, StatusBar, View} from 'react-native';
 import Products from '../Products';
 import CardIcon from '../../components/CardIcon';
 import Footer from '../../components/Footer';
+import Payment from '../Payment';
 
 export default function Home() {
   return (

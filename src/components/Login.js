@@ -6,9 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {Settings} from 'react-native-fbsdk-next';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {setIsLogged} from '../slices/isLogged';
+import {userInformarion} from '../utils/login';
 
 function Login({route}) {
   const navigate = useNavigation();
@@ -58,7 +59,7 @@ function Login({route}) {
           forceCodeForRefreshToken: true,
         });
         await AsyncStorage.setItem('user', JSON.stringify(userInfo));
-        // await userInformarion(userInfo);
+        await userInformarion(userInfo);
         dispatch(setIsLogged(true));
         if (route?.params?.screen === 'LoginScreen') {
           navigate.navigate('PaymentScreen');
