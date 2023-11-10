@@ -170,10 +170,11 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import { useStripe } from '@stripe/stripe-react-native';
 import axios from 'axios';
 import { Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
-import { API_URL } from '../../../env';
+import { API_URL, PARTNERID } from '../../../env';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../slices/cart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function PaymentScreen() {
   const [userInfo, setUserInfo] = useState({
@@ -193,20 +194,30 @@ function PaymentScreen() {
   };
   
   const pay = async () => {
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    const quantity = cartItems.reduce((group, item) => {
+      if (group[item._id]) {
+        group[item._id]++;
+      } else {
+        group[item._id] = 1;
+      }
+      return group;
+    }, {});
     const response = await axios.post(
-      `${API_URL}/api/v1/admin/payment`,
+      `${API_URL}/api/v1/payment/payment`,
       {
-        amount: ((cartTotal + 2) * 100).toFixed(0),
-        name: userInfo.name,
-        street: userInfo.street,
-        neiborhood: userInfo.neiborhood,
-        number: userInfo.number,
-        complement: userInfo.complement,
-        items: JSON.stringify(cartItems.map((item) => item._id)),
+        items: JSON.stringify(cartItems.map((item) => ({
+          id: item._id,
+          quantity: quantity[item._id],
+        }))),
+        addressId: user.address[0].id,
+        partnerId: PARTNERID,
+        userId: user.id,
       },
       {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGQ3YTBjNTA5NjRhY2ViNjJjYTUwZSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5NTgwNDUyLCJleHAiOjE3MDgyMjA0NTJ9.y0cVs-g1nT9eGB5yORS8pwzpLIjz-54l7Er4k05aBVk`
         },
       }
     );
@@ -227,7 +238,7 @@ function PaymentScreen() {
     }
     navigate.navigate('Delivery');
   };
-  console.log(userInfo);
+  
   return (
     <StripeProvider
       publishableKey="pk_test_51NhIhvBNc2rxEllKjpGK61qW6R5WGeHm7pyim14Bzy6HNRjOxHWVLFPURZM4x8n1BG0y8pAfFoNwBSMV49EXxjuZ00B27uA12x"

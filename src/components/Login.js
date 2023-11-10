@@ -58,8 +58,8 @@ function Login({route}) {
         const userInfo = await GoogleSignin.signIn({
           forceCodeForRefreshToken: true,
         });
-        await AsyncStorage.setItem('user', JSON.stringify(userInfo));
-        await userInformarion(userInfo);
+        const result = await userInformarion(userInfo);
+        await AsyncStorage.setItem('user', JSON.stringify(result));
         dispatch(setIsLogged(true));
         if (route?.params?.screen === 'LoginScreen') {
           navigate.navigate('PaymentScreen');

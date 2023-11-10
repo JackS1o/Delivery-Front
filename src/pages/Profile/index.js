@@ -38,6 +38,7 @@ const Profile = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       const user = await AsyncStorage.getItem('user');
+      console.log(user);
       const parsedUser = JSON.parse(user);
       setUserInfo(parsedUser);
       parsedUser !== null && dispatch(setIsLogged(true));
@@ -50,7 +51,7 @@ const Profile = () => {
     dispatch(setIsLogged(false));
     await AsyncStorage.removeItem('user');
   }
-
+  console.log(userInfo);
   return (
     <>
       {!isLogged ? (
@@ -59,7 +60,7 @@ const Profile = () => {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={{
-              uri: userInfo?.user?.photo,
+              uri: userInfo?.picture,
             }}
             style={{
               width: 120,
@@ -69,12 +70,12 @@ const Profile = () => {
             }}
           />
           <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 8}}>
-            {userInfo?.user?.name ? userInfo?.user.name : 'Nome do Usuário'}
+            {userInfo?.name ? userInfo?.name : 'Nome do Usuário'}
           </Text>
           <Text style={{fontSize: 16, color: 'gray', marginBottom: 12}}>
-            {userInfo?.user?.email ? userInfo?.user.email : 'email@example.com'}
+            {userInfo?.email ? userInfo?.email : 'email@example.com'}
           </Text>
-          {isEditing ? (
+          {/* {isEditing ? (
             <>
               <View
                 style={{
@@ -130,7 +131,7 @@ const Profile = () => {
               </Text>
               <Text style={{fontSize: 16}}>Endereço: {userInfo?.address}</Text>
             </>
-          )}
+          )} */}
           <TouchableOpacity
             onPress={isEditing ? handleSave : handleEditToggle}
             style={{
